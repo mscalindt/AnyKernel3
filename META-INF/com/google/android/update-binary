@@ -211,7 +211,7 @@ abort() {
 do_devicecheck() {
   test "$(file_getprop anykernel.sh do.devicecheck)" == 1 || return 1;
   local device devicename match product testname vendordevice vendorproduct;
-  ui_print "Checking device...";
+  ui_print " " "Checking device...";
   device=$(getprop ro.product.device 2>/dev/null);
   product=$(getprop ro.build.product 2>/dev/null);
   vendordevice=$(getprop ro.product.vendor.device 2>/dev/null);
@@ -219,14 +219,14 @@ do_devicecheck() {
   for testname in $(file_getprop anykernel.sh 'device.name.*'); do
     for devicename in $device $product $vendordevice $vendorproduct; do
       if [ "$devicename" == "$testname" ]; then
-        ui_print "$testname" " ";
+        ui_print "- $testname" " ";
         match=1;
         break 2;
       fi;
     done;
   done;
   if [ ! "$match" ]; then
-    abort " " "Unsupported device. Aborting...";
+    abort "Unsupported device. Aborting...";
   fi;
 }
 int2ver() {
@@ -400,25 +400,23 @@ if [ $? != 0 -o -z "$(ls bin)" ]; then
   abort "Busybox setup failed. Aborting...";
 fi;
 
-if [ -f banner ]; then
-  ui_printfile banner;
-  ui_print " " " ";
-fi;
-
-KERNEL_STRING="$(file_getprop anykernel.sh kernel.string)";
-ui_print "$KERNEL_STRING";
-if [ -f version ]; then
-  ui_print " ";
-  ui_printfile version;
-  ui_print " ";
-fi;
-ui_print " " "AnyKernel3 by osm0sis @ xda-developers" " " " ";
+ui_print "=======================================";
+ui_print "            _________   ________";
+ui_print "     ___  __\_   ___ \ /  _____/";
+ui_print "     \  \/  /    \  \//   \  ___";
+ui_print "      >    <\     \___\    \_\  \"";
+ui_print "     /__/\__\\________/\________/";
+ui_print "=======================================";
+ui_print "$(file_getprop anykernel.sh kernel.string)";
+ui_print "=======================================";
+ui_print "AnyKernel3 by osm0sis @ xda-developers";
+ui_print "=======================================";
 
 setup_env;
 
 do_devicecheck;
 
-ui_print "Installing...";
+ui_print " " "> Installing...";
 CORE=$($BB grep -oE 'ak.*core.sh' anykernel.sh);
 test -f tools/$CORE || $BB ln -s $AKHOME/tools/ak*-core.sh $AKHOME/tools/$CORE;
 PATH="$AKHOME/bin:$PATH" home=$AKHOME $BB ash anykernel.sh $2;
@@ -435,4 +433,5 @@ if [ "$(file_getprop anykernel.sh do.cleanup)" == 1 ]; then
   cleanup;
 fi;
 
-ui_print " " " " "Done!";
+ui_print " " "Done!";
+ui_print "-----" " ";
