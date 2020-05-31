@@ -417,7 +417,6 @@ ui_print " " "AnyKernel3 by osm0sis @ xda-developers" " " " ";
 setup_env;
 
 do_devicecheck;
-do_versioncheck;
 do_levelcheck;
 
 ui_print "Installing...";
