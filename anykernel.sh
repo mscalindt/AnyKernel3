@@ -3,7 +3,7 @@
 
 properties() { '
 kernel.string=xCG by mscalindt
-do.devicecheck=1
+do.devicecheck=0
 do.modules=0
 do.systemless=0
 do.cleanup=1
